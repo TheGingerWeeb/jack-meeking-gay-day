@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Jack Meeking's Gay Day 🌈</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;700;900&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --red:    #FF0018;
+      --orange: #FFA52C;
+      --yellow: #FFFF41;
+      --green:  #008018;
+      --blue:   #0000F9;
+      --violet: #86007D;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0d0d0d;
+      font-family: 'Nunito', sans-serif;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ── Rainbow stripe header ── */
+    .rainbow-bar {
+      width: 100%;
+      height: 14px;
+      background: linear-gradient(
+        to right,
+        var(--red), var(--orange), var(--yellow),
+        var(--green), var(--blue), var(--violet)
+      );
+    }
+
+    /* ── Confetti canvas ── */
+    #confetti-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Hero section ── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 24px 40px;
+      gap: 24px;
+    }
+
+    .pride-flag {
+      width: 120px;
+      height: 80px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(255,255,255,0.3);
+      flex-shrink: 0;
+    }
+
+    .pride-flag div {
+      width: 100%;
+      height: calc(100% / 6);
+    }
+
+    .flag-red    { background: var(--red); }
+    .flag-orange { background: var(--orange); }
+    .flag-yellow { background: var(--yellow); }
+    .flag-green  { background: var(--green); }
+    .flag-blue   { background: var(--blue); }
+    .flag-violet { background: var(--violet); }
+
+    .headline {
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(2.4rem, 7vw, 5.5rem);
+      line-height: 1.1;
+      background: linear-gradient(
+        135deg,
+        var(--red), var(--orange), var(--yellow),
+        var(--green), var(--blue), var(--violet)
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 20px rgba(255,165,0,0.4));
+      animation: pulse 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(255,165,0,0.4)); }
+      50%       { filter: drop-shadow(0 0 40px rgba(134,0,125,0.7)); }
+    }
+
+    .subheadline {
+      font-size: clamp(1.1rem, 3vw, 1.8rem);
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Glowing badge ── */
+    .badge {
+      display: inline-block;
+      padding: 14px 36px;
+      border-radius: 50px;
+      font-family: 'Fredoka One', cursive;
+      font-size: clamp(1rem, 3vw, 1.5rem);
+      color: #fff;
+      background: linear-gradient(135deg, #FF0080, #7928CA, #0070F3);
+      box-shadow: 0 0 30px rgba(121,40,202,0.6), 0 0 60px rgba(0,112,243,0.3);
+      animation: badgePulse 2s ease-in-out infinite;
+      cursor: default;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { box-shadow: 0 0 30px rgba(121,40,202,0.6), 0 0 60px rgba(0,112,243,0.3); }
+      50%       { box-shadow: 0 0 50px rgba(255,0,128,0.8), 0 0 90px rgba(121,40,202,0.5); }
+    }
+
+    /* ── Rainbow divider ── */
+    .divider {
+      width: 80%;
+      max-width: 600px;
+      height: 6px;
+      border-radius: 3px;
+      background: linear-gradient(
+        to right,
+        var(--red), var(--orange), var(--yellow),
+        var(--green), var(--blue), var(--violet)
+      );
+      margin: 10px auto;
+    }
+
+    /* ── Cards ── */
+    .cards {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 20px 24px 60px;
+      max-width: 1000px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 20px;
+      padding: 28px 24px;
+      width: 260px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px) scale(1.03);
+      box-shadow: 0 12px 40px rgba(255,255,255,0.15);
+    }
+
+    .card-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .card h3 {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.75);
+      line-height: 1.5;
+    }
+
+    .card:nth-child(1) { border-color: rgba(255,0,24,0.5);  }
+    .card:nth-child(1) h3 { color: #FF6B6B; }
+
+    .card:nth-child(2) { border-color: rgba(255,165,44,0.5); }
+    .card:nth-child(2) h3 { color: #FFA52C; }
+
+    .card:nth-child(3) { border-color: rgba(0,128,24,0.5);  }
+    .card:nth-child(3) h3 { color: #4CAF50; }
+
+    .card:nth-child(4) { border-color: rgba(134,0,125,0.5); }
+    .card:nth-child(4) h3 { color: #CE93D8; }
+
+    /* ── Marquee ── */
+    .marquee-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      overflow: hidden;
+      background: rgba(255,255,255,0.05);
+      padding: 14px 0;
+      margin-bottom: 10px;
+    }
+
+    .marquee-track {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 18s linear infinite;
+    }
+
+    .marquee-track span {
+      font-family: 'Fredoka One', cursive;
+      font-size: 1.3rem;
+      padding: 0 40px;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    /* ── Footer ── */
+    footer {
+      position: relative;
+      z-index: 1;
+      padding: 20px;
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.85rem;
+    }
+
+    /* ── Floating hearts ── */
+    .hearts {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .heart {
+      position: absolute;
+      bottom: -60px;
+      font-size: 1.5rem;
+      animation: floatUp linear infinite;
+      opacity: 0.7;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 0.7; }
+      100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="rainbow-bar"></div>
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="pride-flag">
+      <div class="flag-red"></div>
+      <div class="flag-orange"></div>
+      <div class="flag-yellow"></div>
+      <div class="flag-green"></div>
+      <div class="flag-blue"></div>
+      <div class="flag-violet"></div>
+    </div>
+
+    <h1 class="headline">Jack Meeking<br>is having a<br>GAY DAY today! 🌈</h1>
+
+    <div class="divider"></div>
+
+    <p class="subheadline">Celebrate. Be proud. Shine bright. ✨</p>
+
+    <div class="badge">🏳️‍🌈 Happy Gay Day, Jack! 🏳️‍🌈</div>
+  </section>
+
+  <!-- Marquee -->
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <span style="color:#FF6B6B">🌈 Jack Meeking is having a GAY DAY today!</span>
+      <span style="color:#FFA52C">🏳️‍🌈 Love is love!</span>
+      <span style="color:#FFFF41">✨ Be proud, be you!</span>
+      <span style="color:#4CAF50">🌈 Jack Meeking is having a GAY DAY today!</span>
+      <span style="color:#64B5F6">🏳️‍🌈 Love is love!</span>
+      <span style="color:#CE93D8">✨ Be proud, be you!</span>
+      <!-- duplicate for seamless loop -->
+      <span style="color:#FF6B6B">🌈 Jack Meeking is having a GAY DAY today!</span>
+      <span style="color:#FFA52C">🏳️‍🌈 Love is love!</span>
+      <span style="color:#FFFF41">✨ Be proud, be you!</span>
+      <span style="color:#4CAF50">🌈 Jack Meeking is having a GAY DAY today!</span>
+      <span style="color:#64B5F6">🏳️‍🌈 Love is love!</span>
+      <span style="color:#CE93D8">✨ Be proud, be you!</span>
+    </div>
+  </div>
+
+  <!-- Cards -->
+  <section class="cards">
+    <div class="card">
+      <span class="card-icon">🌈</span>
+      <h3>Pride &amp; Joy</h3>
+      <p>Today is Jack's day to shine with all the colors of the rainbow!</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎉</span>
+      <h3>Celebrate!</h3>
+      <p>Every day is a good day, but today Jack's day is extra fabulous.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💖</span>
+      <h3>Love Wins</h3>
+      <p>Spread love, kindness, and glitter wherever you go, Jack!</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">✨</span>
+      <h3>Be You</h3>
+      <p>Authenticity is the most beautiful thing in the world. Stay fabulous!</p>
+    </div>
+  </section>
+
+  <!-- Floating hearts -->
+  <div class="hearts" id="hearts"></div>
+
+  <footer>
+    Made with 🌈 love &bull; Jack Meeking's Gay Day &bull; 2026
+  </footer>
+
+  <script>
+    // ── Confetti ──────────────────────────────────────────────
+    const canvas = document.getElementById('confetti-canvas');
+    const ctx = canvas.getContext('2d');
+    const colors = ['#FF0018','#FFA52C','#FFFF41','#008018','#0000F9','#86007D','#FF69B4','#00CED1'];
+    let pieces = [];
+
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function randomPiece() {
+      return {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height - canvas.height,
+        w: Math.random() * 10 + 5,
+        h: Math.random() * 6 + 3,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        speed: Math.random() * 2 + 0.8,
+        angle: Math.random() * Math.PI * 2,
+        spin:  (Math.random() - 0.5) * 0.1,
+        drift: (Math.random() - 0.5) * 1.2,
+      };
+    }
+
+    for (let i = 0; i < 120; i++) pieces.push(randomPiece());
+
+    function drawConfetti() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      pieces.forEach(p => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = 0.75;
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+        ctx.restore();
+        p.y     += p.speed;
+        p.x     += p.drift;
+        p.angle += p.spin;
+        if (p.y > canvas.height + 20) {
+          p.y = -20;
+          p.x = Math.random() * canvas.width;
+        }
+      });
+      requestAnimationFrame(drawConfetti);
+    }
+    drawConfetti();
+
+    // ── Floating hearts ───────────────────────────────────────
+    const heartColors = ['#FF6B6B','#FFA52C','#FFFF41','#4CAF50','#64B5F6','#CE93D8','#FF69B4'];
+    const heartsEl = document.getElementById('hearts');
+    const heartChars = ['❤️','🧡','💛','💚','💙','💜','🩷','🏳️‍🌈'];
+
+    function spawnHeart() {
+      const h = document.createElement('span');
+      h.className = 'heart';
+      h.textContent = heartChars[Math.floor(Math.random() * heartChars.length)];
+      h.style.left = Math.random() * 100 + 'vw';
+      const dur = Math.random() * 8 + 6;
+      h.style.animationDuration = dur + 's';
+      h.style.animationDelay = Math.random() * 4 + 's';
+      h.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+      heartsEl.appendChild(h);
+      setTimeout(() => h.remove(), (dur + 4) * 1000);
+    }
+
+    for (let i = 0; i < 20; i++) spawnHeart();
+    setInterval(spawnHeart, 800);
+  </script>
+</body>
+</html>
